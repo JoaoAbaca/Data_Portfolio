@@ -1,0 +1,16 @@
+2025-05-09 12:18:34,755 [INFO] CSV leído correctamente. Registros: 5538
+2025-05-09 12:18:34,913 [INFO] Datos cargados en SQLite con éxito.
+2025-05-09 12:18:34,913 [INFO] Índice creado en columna 'nct_number'.
+2025-05-09 12:18:34,913 [INFO] Conexión cerrada correctamente.
+2025-05-09 12:24:20,397 [INFO] CSV leído correctamente. Registros: 7375
+2025-05-09 12:24:20,571 [INFO] Datos cargados en SQLite con éxito.
+2025-05-09 12:24:20,572 [INFO] Índice creado en columna 'nct_number'.
+2025-05-09 12:24:20,573 [INFO] Conexión cerrada correctamente.
+2025-05-09 12:24:55,958 [INFO] CSV leído correctamente. Registros: 7375
+2025-05-09 12:24:56,139 [INFO] Datos cargados en SQLite con éxito.
+2025-05-09 12:24:56,139 [INFO] Índice creado en columna 'nct_number'.
+2025-05-09 12:24:56,141 [INFO] Conexión cerrada correctamente.
+2025-05-09 12:25:59,536 [INFO] CSV leído correctamente. Registros: 7375
+2025-05-09 12:25:59,674 [INFO] Datos cargados en SQLite con éxito.
+2025-05-09 12:25:59,674 [INFO] Índice creado en columna 'nct_number'.
+2025-05-09 12:25:59,674 [INFO] Conexión cerrada correctamente.

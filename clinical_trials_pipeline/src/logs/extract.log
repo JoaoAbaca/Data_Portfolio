@@ -1,0 +1,3 @@
+2025-05-09 12:22:47,256 [ERROR] Archivo de entrada no encontrado: C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/Raw_Diabetes_Clinical_Trials.csv
+2025-05-09 12:23:48,314 [INFO] Archivo leído y guardado correctamente como: C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_clean.csv
+2025-05-09 12:23:48,314 [INFO] Total de registros: 1140
