@@ -1,0 +1,17 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# Base de datos SQLite
+/data/*.db
+
+# Archivos intermedios
+/data/*.csv
+
