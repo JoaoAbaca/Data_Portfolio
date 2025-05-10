@@ -1,0 +1,3 @@
+requests
+pandas
+sqlite3 ; only used via Python standard library

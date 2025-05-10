@@ -1,39 +1,51 @@
-import json
 import pandas as pd
+import logging
 import os
 
-# Definir rutas
-raw_path = "data/raw_coin_data.json"
-output_path = "data/coin_data_clean.csv"
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(levelname)s] %(message)s'
+)
 
-# Verificar que el archivo existe
+# Rutas
+raw_path = "data/coin_data_raw.json"
+clean_path = "data/coin_data_clean.csv"
+
+# Verificar existencia del archivo
 if not os.path.exists(raw_path):
-    raise FileNotFoundError(f"❌ Archivo JSON no encontrado: {raw_path}")
+    logging.error(f"No se encontró el archivo de entrada: {raw_path}")
+    exit()
 
-# Cargar datos
-with open(raw_path, "r", encoding="utf-8") as f:
-    data = json.load(f)
+# Cargar JSON
+try:
+    df = pd.read_json(raw_path)
+    logging.info(f"Archivo cargado: {raw_path}")
+except Exception as e:
+    logging.error(f"Error al leer JSON: {e}")
+    exit()
 
-# Crear DataFrame
-df = pd.DataFrame(data)
-
-# Seleccionar columnas de interés
-columns_needed = [
-    "id", "symbol", "name", "current_price", "market_cap", "market_cap_rank",
-    "total_volume", "price_change_percentage_24h", "circulating_supply", "last_updated"
+# Ver columnas disponibles
+expected_cols = [
+    'id', 'symbol', 'name', 'current_price', 'market_cap',
+    'market_cap_rank', 'total_volume', 'high_24h', 'low_24h',
+    'price_change_percentage_24h', 'last_updated'
 ]
+df = df[expected_cols]
 
-df = df[columns_needed]
+# Validación de datos
+original_count = len(df)
 
-# Renombrar columnas a snake_case
-df.columns = [col.lower().strip().replace(" ", "_") for col in df.columns]
+# Eliminar filas con nulos en campos clave
+df.dropna(subset=['id', 'symbol', 'name', 'current_price'], inplace=True)
 
-# Convertir columna de fecha a tipo datetime
-df["last_updated"] = pd.to_datetime(df["last_updated"], errors="coerce")
+# Validar que ciertos campos sean positivos
+df = df[df['current_price'] > 0]
+df = df[df['market_cap_rank'] > 0]
 
-# Eliminar registros con valores faltantes críticos
-df.dropna(subset=["id", "current_price", "market_cap"], inplace=True)
+filtered_count = len(df)
+logging.info(f"Filas originales: {original_count} | Filas limpias: {filtered_count}")
 
-# Guardar como CSV limpio
-df.to_csv(output_path, index=False)
-print(f"✅ Transformación completa. Archivo guardado en: {output_path}")
+# Guardar CSV limpio
+df.to_csv(clean_path, index=False)
+logging.info(f"Datos transformados guardados en: {clean_path}")

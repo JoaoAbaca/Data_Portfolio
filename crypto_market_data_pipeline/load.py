@@ -1,38 +1,48 @@
 import pandas as pd
 import sqlite3
 import os
+import logging
+
+# Configurar logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='[%(levelname)s] %(message)s'
+)
 
 # Rutas
 csv_path = "data/coin_data_clean.csv"
-db_path = "data/crypto_market.db"
+db_path = "data/coin_data.db"
 
 # Verificar existencia del archivo CSV
 if not os.path.exists(csv_path):
-    raise FileNotFoundError(f"❌ Archivo CSV no encontrado: {csv_path}")
+    logging.error(f"El archivo CSV no existe: {csv_path}")
+    exit()
 
-# Leer CSV
-df = pd.read_csv(csv_path)
-print(f"[INFO] CSV leído: {len(df)} registros.")
+# Leer CSV limpio
+try:
+    df = pd.read_csv(csv_path)
+    logging.info(f"Archivo CSV cargado: {csv_path}")
+    logging.info(f"Registros a cargar: {len(df)}")
+except Exception as e:
+    logging.error(f"Error al leer el archivo CSV: {e}")
+    exit()
 
 # Crear carpeta si no existe
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
-# Conectar a SQLite y cargar los datos
+# Cargar en SQLite
 try:
     conn = sqlite3.connect(db_path)
-    df.to_sql("market_data", conn, if_exists="replace", index=False)
+    df.to_sql("coins", conn, if_exists="replace", index=False)
 
-    # Crear índices útiles
+    # Crear índice para mejorar performance
     with conn:
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_coin_id ON market_data(id);")
-        conn.execute("CREATE INDEX IF NOT EXISTS idx_market_cap_rank ON market_data(market_cap_rank);")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_coin_id ON coins(id);")
 
-    print(f"✅ Datos cargados en '{db_path}', tabla 'market_data'.")
-    print("🗂️  Índices creados en 'id' y 'market_cap_rank'.")
-
+    logging.info(f"Datos cargados en la base de datos: {db_path}")
+    logging.info("Índice creado en la columna 'id'")
 except Exception as e:
-    print(f"❌ Error durante carga: {e}")
-
+    logging.error(f"Error al cargar los datos en la base: {e}")
 finally:
     conn.close()
-    print("[INFO] Conexión cerrada.")
+    logging.info("Conexión a la base cerrada.")
