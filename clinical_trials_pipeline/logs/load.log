@@ -1,0 +1,4 @@
+2025-05-11 16:13:23,462 [INFO] CSV leído correctamente. Registros: 18
+2025-05-11 16:13:23,498 [INFO] Datos cargados en SQLite con éxito.
+2025-05-11 16:13:23,498 [INFO] Índice creado en columna 'nct_number'.
+2025-05-11 16:13:23,502 [INFO] Conexión cerrada correctamente.

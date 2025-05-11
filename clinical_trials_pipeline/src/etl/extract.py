@@ -17,7 +17,7 @@ logging.basicConfig(
 )
 
 # Ruta al CSV original descargado manualmente
-csv_source = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/clinical_trials_diabetes.csv"
+csv_source = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_raw.csv"
 csv_clean = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_clean.csv"
 
 # Verificar que el archivo original exista
