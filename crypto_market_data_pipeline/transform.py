@@ -9,7 +9,7 @@ logging.basicConfig(
 )
 
 # Rutas
-raw_path = "data/coin_data_raw.json"
+raw_path = "data/raw_coin_data.json"
 clean_path = "data/coin_data_clean.csv"
 
 # Verificar existencia del archivo

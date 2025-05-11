@@ -1,0 +1,16 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.env
+.venv/
+env/
+venv/
+
+# Archivos intermedios
+/data/*.json
+/data/*.csv
+/data/*.db
+

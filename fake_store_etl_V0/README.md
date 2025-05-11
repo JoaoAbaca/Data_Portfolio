@@ -33,3 +33,5 @@ This project simulates a simple ETL pipeline using product data from the public 
 -- Category with the largest number of products
 -- Products in a range of prices
 -- Top 5 most expensive products by category
+
+
