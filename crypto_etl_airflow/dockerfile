@@ -1,0 +1,14 @@
+# Imagen base oficial de Python
+FROM python:3.10-slim
+
+# Crear carpeta para el proyecto dentro del contenedor
+WORKDIR /app
+
+# Copiar los archivos del proyecto al contenedor
+COPY . .
+
+# Instalar dependencias
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Comando por defecto al correr el contenedor
+CMD ["python", "main.py"]
