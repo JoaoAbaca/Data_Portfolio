@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import sys
 import os
 
-# Añadir ruta para que se puedan importar scripts desde /scripts
+# Add path so scripts can be imported from /scripts
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../scripts')))
 
 from extract import extract_crypto_data

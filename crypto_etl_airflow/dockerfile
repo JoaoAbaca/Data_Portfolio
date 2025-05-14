@@ -1,8 +1,8 @@
-# Dockerfile: extiende Airflow e instala tus dependencias
+# Dockerfile: Extend Airflow and install your dependencies
 FROM apache/airflow:2.8.1
 
-# Copiar requirements.txt
+# Copy requirements.txt
 COPY requirements.txt .
 
-# Instalar dependencias como pandera y pytest
+# Install dependencies like pandera and pytest
 RUN pip install --no-cache-dir -r requirements.txt

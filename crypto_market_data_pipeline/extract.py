@@ -5,10 +5,10 @@ import os
 import json
 from datetime import datetime
 
-# Crear carpeta para datos si no existe
+# Create folder for data if it does not exist
 os.makedirs("data", exist_ok=True)
 
-# Definir parámetros para la API
+# Define parameters for the API
 url = "https://api.coingecko.com/api/v3/coins/markets"
 params = {
     "vs_currency": "usd",
@@ -18,20 +18,20 @@ params = {
     "sparkline": False
 }
 
-# Realizar solicitud
+#Make a request
 response = requests.get(url, params=params)
 
-# Validar respuesta
+# Validate response
 if response.status_code == 200:
     data = response.json()
 
-    # Guardar resultado en archivo
+    # Save result to file
     timestamp = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
     output_file = f"data/raw_coin_data.json"
 
     with open(output_file, "w") as f:
         json.dump(data, f, indent=2)
 
-    print(f"✅ Datos extraídos y guardados en: {output_file}")
+    print(f"✅ Data extracted and saved in: {output_file}")
 else:
-    print(f"❌ Error en la solicitud: {response.status_code}")
+    print(f"❌ Error in the request: {response.status_code}")

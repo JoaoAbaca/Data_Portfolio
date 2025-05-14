@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import logging
 
-# Configurar logging
+# Configure logging
 log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
 log_file = os.path.join(log_dir, "extract.log")
@@ -16,16 +16,16 @@ logging.basicConfig(
     ]
 )
 
-# Ruta al CSV original descargado manualmente
+# Path to the original CSV downloaded manually
 csv_source = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_raw.csv"
 csv_clean = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_clean.csv"
 
-# Verificar que el archivo original exista
+# Verify that the original file exists
 if not os.path.exists(csv_source):
     logging.error(f"Archivo de entrada no encontrado: {csv_source}")
     raise FileNotFoundError(f"❌ No se encuentra el archivo CSV: {csv_source}")
 
-# Leer y guardar copia limpia
+# Read and save clean copy
 try:
     df = pd.read_csv(csv_source)
     df.to_csv(csv_clean, index=False)

@@ -1,12 +1,12 @@
 # Fake Store ETL Pipeline
 
-Este proyecto implementa un pipeline de Extracción, Transformación y Carga (ETL) utilizando datos de la API pública de [Fake Store](https://fakestoreapi.com/), orientado al desarrollo de habilidades clave para un rol de Data Developer.
+This project implements an Extract, Transform, and Load (ETL) pipeline using data from the [Fake Store](https://fakestoreapi.com/) public API, aimed at developing key skills for a Data Developer role.
 
-## Objetivo
+## Objective
 
-Diseñar y ejecutar un pipeline de datos robusto para extraer información de productos, usuarios y pedidos desde una API REST, transformarla y almacenarla en una base de datos relacional.
+Design and implement a robust data pipeline to extract product, user, and order information from a REST API, transform it, and store it in a relational database.
 
-## Tecnologías utilizadas
+## Technologies Used
 
 * Python 3.10+
 * Requests
@@ -14,79 +14,79 @@ Diseñar y ejecutar un pipeline de datos robusto para extraer información de pr
 * SQLite3
 * JSON
 
-## Estructura del Proyecto
+## Project Structure
 
 ```
 fake_store_pipeline/
-├── data/                     # Archivos intermedios y base de datos
-│   ├── products_raw.json
-│   ├── products_clean.csv
-│   ├── fake_store.db
-│   
-├── extract.py               # Extracción de datos desde la API
-├── transform.py             # Limpieza y normalización de datos
-├── load.py                  # Carga de datos a SQLite
+├── data/ # Intermediate files and database
+│ ├── products_raw.json
+│ ├── products_clean.csv
+│ ├── fake_store.db
+│
+├── extract.py # Extracting data from the API
+├── transform.py # Data cleansing and normalization
+├── load.py # Loading data into SQLite
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-## Pipeline ETL
+## ETL Pipeline
 
-### Extracción (`extract.py`)
+### Extraction (`extract.py`)
 
-* Descarga datos desde la API de Fake Store:
+* Download data from the Fake Store API:
 
-  * Productos: `/products`
-  * Usuarios: `/users`
-  * Pedidos: `/carts`
-* Guarda los datos en formato JSON.
+* Products: `/products`
+* Users: `/users`
+* Orders: `/carts`
+* Save data in JSON format.
 
-### Transformación (`transform.py`)
+### Transformation (`transform.py`)
 
-* Normaliza los datos de productos:
+* Normalize product data:
 
-  * Convierte estructuras anidadas (como `rating`) en columnas planas.
-  * Establece tipos de datos consistentes.
-  * Elimina duplicados.
-  * Guarda los datos en formato CSV.
+* Convert nested structures (such as `rating`) into flat columns.
+* Set consistent data types.
+* Remove duplicates.
+* Save data in CSV format.
 
-### Carga (`load.py`)
+### Load (`load.py`)
 
-* Carga los datos limpios a una base de datos SQLite:
+* Load the cleaned data into a SQLite database:
 
-  * Crea la tabla `products`.
-  * Inserta los registros desde el CSV transformado.
-  * Crea un índice sobre la columna `id` para mejorar consultas.
+* Create the `products` table.
+* Insert records from the transformed CSV.
+* Create an index on the `id` column to improve queries.
 
-## Ejecución del pipeline
+## Pipeline Execution
 
 ```bash
-# Paso 1: Extracción
+# Step 1: Extraction
 python extract.py
 
-# Paso 2: Transformación
+# Step 2: Transformation
 python transform.py
 
-# Paso 3: Carga
+# Step 3: Loading
 python load.py
 ```
 
-## Mejores prácticas implementadas
+## Best Practices Implemented
 
-* Validación de estructura de datos.
-* Separación clara por etapa (ETL).
-* Trazabilidad mediante impresión de logs simples.
-* Uso de SQLite para almacenamiento estructurado.
-* Manejo de errores en la etapa de carga.
+* Data structure validation.
+* Clear separation by stage (ETL).
+* Traceability through simple log printing.
+* Use of SQLite for structured storage.
+* Error handling in the loading stage.
 
-## Mejoras futuras
+## Future Enhancements
 
-* Soporte para usuarios y pedidos en el pipeline.
-* Pruebas unitarias para validación de transformaciones.
-* Logging estructurado.
-* Automatización mediante cron o workflows.
+* Support for users and orders in the pipeline.
+* Unit tests for transformation validation.
+* Structured logging.
+* Automation through cron or workflows.
 
-## Autor
+## Author
 
 Joao — [LinkedIn](https://www.linkedin.com/in/joaogithub)

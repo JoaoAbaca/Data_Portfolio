@@ -3,46 +3,46 @@ import json
 import os
 import logging
 
-# Configuración del logger
+# Logger configuration
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-# Ruta de guardado
+# Save path
 output_path = "data/raw/products.json"
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-# URL de la API
+# API URL
 url = "https://fakestoreapi.com/products"
 
 def validar_esquema(producto):
-    """Verifica que el producto tenga las claves esperadas."""
+    "Verify that the product has the expected keys."
     claves_esperadas = {'id', 'title', 'price', 'description', 'category', 'image', 'rating'}
     return claves_esperadas.issubset(producto.keys())
 
 def extraer_datos():
     try:
-        logging.info(f"Solicitando datos desde {url}...")
+        logging.info(f"Requesting data from {url}...")
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
 
         if not isinstance(data, list):
-            raise ValueError("La respuesta de la API no es una lista de productos.")
+            raise ValueError("The API response is not a list of products.")
 
-        # Validación básica de esquema
+        # Basic schema validation
         datos_validos = [p for p in data if validar_esquema(p)]
         if len(datos_validos) < len(data):
-            logging.warning("⚠️ Algunos productos fueron descartados por esquema incompleto.")
+            logging.warning("⚠️ Some products were discarded due to incomplete scheme.")
 
-        # Guardar archivo
+        # Save file
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(datos_validos, f, indent=2, ensure_ascii=False)
 
-        logging.info(f"✅ Datos extraídos y guardados correctamente en {output_path}")
+        logging.info(f"✅ Data extracted and saved correctly in {output_path}")
     except Exception as e:
-        logging.error(f"❌ Error al extraer los datos: {e}")
+        logging.error(f"❌ Error extracting data: {e}")
 
 if __name__ == "__main__":
     extraer_datos()

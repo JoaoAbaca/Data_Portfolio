@@ -3,7 +3,7 @@ import sqlite3
 import os
 import logging
 
-# Configurar logging
+# Configure logging
 log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)
 log_file = os.path.join(log_dir, "load.log")
@@ -17,16 +17,16 @@ logging.basicConfig(
     ]
 )
 
-# Definir rutas
+# Define routes
 csv_path = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/data/studies_transform.csv"
 db_path = "C:/Users/User/Desktop/Data_Portfolio/clinical_trials_pipeline/database/clinical_trials.db"
 
-# Verificar archivo CSV
+# Verify CSV file
 if not os.path.exists(csv_path):
     logging.error(f"Archivo no encontrado: {csv_path}")
     raise FileNotFoundError(f"❌ El archivo CSV no se encontró: {csv_path}")
 
-# Leer CSV
+# Read CSV
 try:
     df = pd.read_csv(csv_path)
     logging.info(f"CSV leído correctamente. Registros: {len(df)}")
@@ -34,10 +34,10 @@ except Exception as e:
     logging.error(f"Error al leer el CSV: {e}")
     raise
 
-# Crear carpeta de base de datos si no existe
+# Create database folder if it doesn't exist
 os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
-# Cargar a SQLite
+# Load to SQLite
 try:
     conn = sqlite3.connect(db_path)
     df.to_sql("studies", conn, if_exists="replace", index=False)

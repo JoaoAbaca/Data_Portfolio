@@ -2,30 +2,30 @@ import pandas as pd
 import logging
 import os
 
-# Configurar logging
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='[%(levelname)s] %(message)s'
 )
 
-# Rutas
+# Path
 raw_path = "data/raw_coin_data.json"
 clean_path = "data/coin_data_clean.csv"
 
-# Verificar existencia del archivo
+# Check for file existence
 if not os.path.exists(raw_path):
-    logging.error(f"No se encontró el archivo de entrada: {raw_path}")
+    logging.error(f"The input file was not found.: {raw_path}")
     exit()
 
-# Cargar JSON
+# Load JSON
 try:
     df = pd.read_json(raw_path)
-    logging.info(f"Archivo cargado: {raw_path}")
+    logging.info(f"File uploaded: {raw_path}")
 except Exception as e:
-    logging.error(f"Error al leer JSON: {e}")
+    logging.error(f"Error reading JSON: {e}")
     exit()
 
-# Ver columnas disponibles
+# View available columns
 expected_cols = [
     'id', 'symbol', 'name', 'current_price', 'market_cap',
     'market_cap_rank', 'total_volume', 'high_24h', 'low_24h',
@@ -33,19 +33,19 @@ expected_cols = [
 ]
 df = df[expected_cols]
 
-# Validación de datos
+# Data validation
 original_count = len(df)
 
-# Eliminar filas con nulos en campos clave
+# Delete rows with nulls in key fields
 df.dropna(subset=['id', 'symbol', 'name', 'current_price'], inplace=True)
 
-# Validar que ciertos campos sean positivos
+# Validate that certain fields are positive
 df = df[df['current_price'] > 0]
 df = df[df['market_cap_rank'] > 0]
 
 filtered_count = len(df)
-logging.info(f"Filas originales: {original_count} | Filas limpias: {filtered_count}")
+logging.info(f"Original rows: {original_count} | Clean rows: {filtered_count}")
 
-# Guardar CSV limpio
+# Save clean CSV
 df.to_csv(clean_path, index=False)
-logging.info(f"Datos transformados guardados en: {clean_path}")
+logging.info(f"Transformed data saved in: {clean_path}")

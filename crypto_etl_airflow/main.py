@@ -3,13 +3,13 @@ from scripts.transform import transform_crypto_data
 from scripts.load import load_to_sqlite
 
 def run_etl():
-    print("🔄 Iniciando pipeline ETL para datos de criptomonedas...")
+    print("🔄 Starting an ETL pipeline for cryptocurrency data...")
     
     extract_crypto_data()
     transform_crypto_data()
     load_to_sqlite()
     
-    print("✅ Pipeline ETL finalizado con éxito.")
+    print("✅ ETL pipeline completed successfully.")
 
 if __name__ == "__main__":
     run_etl()

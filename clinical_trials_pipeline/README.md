@@ -90,7 +90,7 @@ Review the logs in the `logs/` folder to verify the success of each stage.
 
 ## 💼 Author
 
-João — Portfolio project for Data Engineering vacancies.
+Joao — Portfolio project for Data Engineering vacancies.
 
 ---
 

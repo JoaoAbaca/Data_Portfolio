@@ -1,60 +1,60 @@
 # 💳 CoinGecko ETL Pipeline
 
-Este proyecto implementa un pipeline de extracción, transformación y carga (ETL) utilizando Python y SQLite para procesar información de criptomonedas desde la API de CoinGecko. El objetivo es construir un flujo robusto y escalable que simule procesos típicos de un Data Engineer.
+This project implements an extract, transform, and load (ETL) pipeline using Python and SQLite to process cryptocurrency data from the CoinGecko API. The goal is to build a robust and scalable workflow that simulates typical data engineering processes.
 
 ---
 
-## 🌟 Objetivo
+## 🌟 Objective
 
-Simular un entorno real de procesamiento de datos utilizando prácticas profesionales de ingeniería de datos, incluyendo:
+Simulate a real-world data processing environment using professional data engineering practices, including:
 
-* Extracción de datos desde una API pública (CoinGecko)
-* Validación y transformación de datos en bruto
-* Persistencia en base de datos relacional (SQLite)
-* Logging y manejo de errores
+* Extracting data from a public API (CoinGecko)
+* Validating and transforming raw data
+* Persistence in a relational database (SQLite)
+* Logging and error handling
 
 ---
 
-## 🧱 Estructura del proyecto
+## 🧱 Project Structure
 
 ```
 coin_gecko_pipeline/
 │
-├── extract.py          # Extrae datos desde la API de CoinGecko
-├── transform.py        # Limpia y normaliza los datos extraídos
-├── load.py             # Carga los datos transformados en una base SQLite
+├── extract.py # Extract data from the CoinGecko API
+├── transform.py # Cleanse and normalize extracted data
+├── load.py # Load transformed data into a SQLite database
 │
 ├── data/
-│   ├── coin_data_raw.json        # Datos crudos extraídos desde la API
-│   ├── coin_data_clean.csv       # CSV limpio con los datos procesados
-│   └── coin_data.db              # Base de datos SQLite con la tabla final
+│ ├── coin_data_raw.json # Raw data extracted from the API
+│ ├── coin_data_clean.csv # Cleaned CSV with the processed data
+│ └── coin_data.db # SQLite database with the final table
 │
-└── README.md           # Documentación del proyecto
+└── README.md # Project documentation
 ```
 
 ---
 
-## 🔍 Datos utilizados
+## 🔍 Data used
 
-Se utiliza el endpoint `coins/markets` de la API pública de [CoinGecko](https://www.coingecko.com/en/api/documentation):
+The `coins/markets` endpoint of the [CoinGecko](https://www.coingecko.com/en/api/documentation) is used:
 
-* Top 100 criptomonedas por capitalización de mercado
-* Datos clave: nombre, símbolo, precio actual, volumen, market cap, cambio porcentual diario, etc.
-* Formato original: JSON
+* Top 100 cryptocurrencies by market capitalization
+* Key data: name, symbol, current price, volume, market cap, daily percentage change, etc.
+* Original format: JSON
 
 ---
 
-## ⚙️ Requisitos
+## ⚙️ Requirements
 
 * Python 3.8+
-* Paquetes:
+* Packages:
 
-  * `pandas`
-  * `requests`
-  * `sqlite3` (incluido por defecto)
-  * `os`, `json`, `logging`
+* `pandas`
+* `requests`
+* `sqlite3` (included by default)
+* `os`, `json`, `logging`
 
-Instalar dependencias:
+Install dependencies:
 
 ```bash
 pip install pandas requests
@@ -62,21 +62,21 @@ pip install pandas requests
 
 ---
 
-## 🚀 Ejecución del pipeline
+## 🚀 Executing the pipeline
 
-1. **Extraer los datos**:
+1. **Extract the data**:
 
 ```bash
 python extract.py
 ```
 
-2. **Transformar y limpiar**:
+2. **Transform and clean**:
 
 ```bash
 python transform.py
 ```
 
-3. **Cargar a la base SQLite**:
+3. **Load to the SQLite database**:
 
 ```bash
 python load.py
@@ -84,19 +84,19 @@ python load.py
 
 ---
 
-## 🧐 Lecciones aplicadas
+## 🧐 Applied lessons
 
-✔ Buenas prácticas de codificación (PEP8, separación de etapas)
-✔ Manejo de errores y validaciones robustas
-✔ Uso de logs para trazabilidad
-✔ Normalización y limpieza de datos reales
-✔ Persistencia en base de datos relacional
+✔ Good coding practices (PEP8, stage separation)
+✔ Error handling and robust validation
+✔ Use of logs for traceability
+✔ Normalization and cleansing of real data
+✔ Persistence in relational databases
 
 ---
 
-## 📌 Autor
+## 📌 Author
 
 Joao — [Data Developer Portfolio](https://github.com/joaov-dev)
-Proyecto 3 de 3 para postulación a Mutt Data (2025)
+Project 3 of 3 for Mutt Data application (2025)
 
 ---
