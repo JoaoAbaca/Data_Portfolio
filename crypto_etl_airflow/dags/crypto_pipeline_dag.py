@@ -18,7 +18,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='crypto_pipeline_dag',
+    dag_id='crypto_etl_pipeline',
     default_args=default_args,
     description='Un DAG simple de ETL para criptomonedas',
     schedule_interval='@daily',

@@ -11,7 +11,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   airflow-webserver:
-    image: apache/airflow:2.8.1
+    build: .
     restart: always
     depends_on:
       - postgres
@@ -20,16 +20,17 @@ services:
       AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
       AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "True"
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
+    ports:
+      - "8080:8080"
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scripts:/opt/airflow/scripts
+      - ./tests:/opt/airflow/tests
       - ./data:/opt/airflow/data
-    ports:
-      - "8080:8080"
     command: webserver
 
   airflow-scheduler:
-    image: apache/airflow:2.8.1
+    build: .
     restart: always
     depends_on:
       - airflow-webserver
@@ -39,9 +40,9 @@ services:
     volumes:
       - ./dags:/opt/airflow/dags
       - ./scripts:/opt/airflow/scripts
+      - ./tests:/opt/airflow/tests
       - ./data:/opt/airflow/data
     command: scheduler
 
 volumes:
   postgres_data:
-  
