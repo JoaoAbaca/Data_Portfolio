@@ -1,5 +1,26 @@
-__pycache__/
-*.pyc
-*.db
+# Datos generados
 data/raw/
 data/processed/
+*.db
+
+# Entornos y dependencias
+__pycache__/
+.env
+*.pyc
+
+# Archivos de Airflow
+logs/
+airflow.db
+airflow.cfg
+unittests.cfg
+
+# Archivos de Docker
+*.pid
+*.log
+
+# IDEs y editores
+.vscode/
+.idea/
+
+# Otros
+*.egg-info/

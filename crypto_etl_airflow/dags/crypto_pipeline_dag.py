@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../scri
 
 from extract import extract_crypto_data
 from transform import transform_crypto_data
-from load import load_to_sqlite
+from load import load_to_postgres
 
 default_args = {
     'owner': 'Joao',
@@ -37,8 +37,8 @@ with DAG(
     )
 
     task_load = PythonOperator(
-        task_id='load_data',
-        python_callable=load_to_sqlite
+    task_id='load_data',
+    python_callable=load_to_postgres
     )
 
     task_extract >> task_transform >> task_load

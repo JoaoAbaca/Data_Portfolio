@@ -1,31 +1,51 @@
-import pandas as pd
-import sqlite3
 import os
+import pandas as pd
+from sqlalchemy import create_engine, text
+from glob import glob
 
 
-def load_to_sqlite():
-    # Find the most recent CSV file in data/processed
-    processed_dir = os.path.join("data", "processed")
-    files = sorted(
-        [f for f in os.listdir(processed_dir) if f.endswith(".csv")],
-        reverse=True
-    )
+def get_latest_csv_file(processed_dir="data/processed/"):
+    csv_files = glob(os.path.join(processed_dir, "*.csv"))
+    if not csv_files:
+        raise FileNotFoundError("No se encontraron archivos CSV en data/processed/")
+    latest_file = max(csv_files, key=os.path.getctime)
+    return latest_file
 
-    if not files:
-        raise FileNotFoundError("No .csv files were found in data/processed")
 
-    csv_file = os.path.join(processed_dir, files[0])
+def load_to_postgres():
+    # Obtener el archivo CSV más reciente
+    csv_file = get_latest_csv_file()
     df = pd.read_csv(csv_file)
 
-    # Create connection to SQLite
-    conn = sqlite3.connect("crypto_data.db")
+    # Crear engine de conexión a PostgreSQL
+    POSTGRES_USER = os.getenv("POSTGRES_USER", "airflow")
+    POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "airflow")
+    POSTGRES_HOST = os.getenv("POSTGRES_HOST", "postgres")
+    POSTGRES_DB = os.getenv("POSTGRES_DB", "airflow")
 
-    # Save to table called 'market_data''
-    df.to_sql("market_data", conn, if_exists="append", index=False)
+    db_url = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/{POSTGRES_DB}"
+    engine = create_engine(db_url)
 
-    conn.close()
-    print(f"✅ Data loaded into SQLite database from {csv_file}")
+    # Crear tabla si no existe
+    table_name = "crypto_prices"
+    with engine.connect() as conn:
+        conn.execute(text(f"""
+            CREATE TABLE IF NOT EXISTS {table_name} (
+                id TEXT,
+                symbol TEXT,
+                name TEXT,
+                current_price FLOAT,
+                market_cap FLOAT,
+                total_volume FLOAT,
+                last_updated TEXT
+            )
+        """))
 
-# Execute directly if this script is run
+    # Cargar los datos al final de la tabla (append)
+    df.to_sql(table_name, engine, if_exists='append', index=False)
+
+    print(f"✅ Datos cargados en la tabla '{table_name}' de PostgreSQL")
+
+
 if __name__ == "__main__":
-    load_to_sqlite()
+    load_to_postgres()
