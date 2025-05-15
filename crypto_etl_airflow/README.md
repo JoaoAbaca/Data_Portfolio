@@ -1,102 +1,96 @@
-# 🧱 Proyecto ETL de Criptomonedas con Airflow, Docker y PostgreSQL
+# 🧱 Cryptocurrency ETL Project with Airflow, Docker, and PostgreSQL
 
-Este proyecto implementa un pipeline de ETL (Extracción, Transformación y Carga) sobre datos de criptomonedas en tiempo real. Está orquestado con Apache Airflow, contenerizado con Docker y almacena los datos en una base PostgreSQL.
-
----
-
-## 🧠 Objetivo
-
-Simular un entorno de producción donde se automatiza diariamente la recolección, validación, transformación y almacenamiento de datos desde una API externa. Este pipeline sirve como demostración técnica para el rol de Data Developer.
+This project implements an ETL pipeline (Extract, Transform, Load) for real-time cryptocurrency data. It is orchestrated using Apache Airflow, containerized with Docker, and stores the data in a PostgreSQL database.
 
 ---
 
-## ⚙️ Tecnologías utilizadas
+## 🧠 Objective
+
+Simulate a production environment that automates daily data extraction, validation, transformation, and loading from an external API. This pipeline serves as a technical demonstration for a Data Developer role.
+
+---
+
+## ⚙️ Technologies Used
 
 - **Python 3.8**
 - **Apache Airflow 2.8.1**
 - **Docker & Docker Compose**
 - **PostgreSQL 13**
-- **Pandas / Pandera** (validación)
+- **Pandas / Pandera** (data validation)
 - **SQLAlchemy**
 - **Pytest** (testing)
 
 ---
 
-## 📊 Arquitectura del pipeline
-API de CoinGecko
-↓
-[Extract] → Guarda JSON en data/raw/
-↓
-[Transform] → Limpieza, selección de columnas, validación con Pandera
-↓
-[Load] → Inserta en PostgreSQL usando SQLAlchemy
+## 📊 Pipeline Architecture
 
+CoinGecko API  
+↓  
+**Extract:** Saves JSON files in `data/raw/`  
+↓  
+**Transform:** Cleans data, selects columns, validates with Pandera  
+↓  
+**Load:** Inserts data into PostgreSQL using SQLAlchemy  
 
-Orquestado con Airflow → `extract_data` → `transform_data` → `load_data`
+Orchestrated by Airflow: `extract_data` → `transform_data` → `load_data`
 
 ---
 
-## 🚧 Evolución del proyecto
+## 🚧 Project Evolution
 
-| Versión | Descripción |
-|---------|-------------|
-| 🔹 **Inicial** | Scripts separados (`extract.py`, `transform.py`, `load.py`) con datos en local (JSON/CSV) y carga en SQLite |
-| 🔹 **Mejoras** | Airflow para orquestación diaria, Pandera para validación, Docker para portabilidad, PostgreSQL para entorno realista, y tests con Pytest |
+| Version   | Description                                                          |
+|-----------|----------------------------------------------------------------------|
+| 🔹 Initial | Separate scripts (`extract.py`, `transform.py`, `load.py`) saving data locally (JSON/CSV) and loading into SQLite |
+| 🔹 Improvements | Added Airflow for daily orchestration, Pandera for validation, Docker for portability, PostgreSQL for realistic environment, and Pytest for automated testing |
 
 ---
 
 ## 🧪 Testing
 
-El proyecto incluye un test básico con `pytest` que valida:
-- Que la transformación genere un archivo `.csv`
-- Que las columnas estén completas
-- Que no existan valores nulos
+Includes basic `pytest` tests to verify:  
+- CSV file is generated after transformation  
+- Columns are complete and correct  
+- No null values present  
 
-📁 Ubicación: `tests/test_transform.py`
+Test location: `tests/test_transform.py`
 
 ---
 
-## 🚀 ¿Cómo correr el proyecto?
+## 🚀 How to Run the Project
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
-```bash
-git clone https://github.com/tuusuario/crypto-etl-airflow.git
+bash
+git clone https://github.com/yourusername/crypto-etl-airflow.git
 cd crypto-etl-airflow
 
-2. Build de Docker
-
+### 2. Build Docker images
 docker-compose build --no-cache
 
-3. Inicializar Airflow (solo la primera vez)
-
+### 3. Initialize Airflow database (first-time setup)
 docker-compose run airflow-webserver airflow db init
 docker-compose run airflow-webserver airflow users create \
   --username admin --firstname Joao --lastname Dev \
   --role Admin --email joao@example.com --password admin
 
-4. Levantar los servicios
-
+### 4. Start all services
 docker-compose up
+Access Airflow UI at: http://localhost:8080
+Username: admin
+Password: admin
 
-Accedé a Airflow en: http://localhost:8080
-
-Usuario: admin
-Contraseña: admin
-📂 Estructura de carpetas
-
+### 📂 Folder Structure
 crypto_etl_airflow/
-├── dags/                  # DAG de Airflow
-├── scripts/               # Scripts extract/transform/load
-├── tests/                 # Pytest
-├── data/                  # Datos en crudo y procesados (ignorado por Git)
+├── dags/                  # Airflow DAG definitions
+├── scripts/               # Extract, Transform, Load scripts
+├── tests/                 # Pytest tests
+├── data/                  # Raw and processed data (ignored by Git)
 ├── Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt
 ├── README.md
 
-🛑 Exclusiones en .gitignore
-
+### 🛑 Git Ignore Rules
 data/
 logs/
 *.db
@@ -106,19 +100,13 @@ __pycache__/
 .vscode/
 .idea/
 
-📌 Observaciones
+### 📌 Notes
+* The pipeline uses a limited API endpoint (top 10 cryptocurrencies by market cap in USD), so it produces a small dataset daily.
 
-    El pipeline usa un endpoint limitado (top 10 criptos en USD), por lo que genera pocos registros por día.
+* Ideal to showcase skills in orchestration, containerization, validation, and automation.
 
-    Ideal para demostrar habilidades en orquestación, contenerización, validación y automatización.
+* Easily scalable to include more APIs or larger datasets.
 
-    Puede escalarse fácilmente con otras APIs o múltiples endpoints si se desea mayor volumen.
-
-👨‍💻 Autor
-
-Joao — Data Developer en formación
-Proyecto de portafolio técnico orientado a roles de ingeniería de datos.
-
-
----
-
+### 👨‍💻 Author
+Joao — Aspiring Data Developer
+Technical portfolio project targeting Data  roles.

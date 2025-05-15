@@ -1,0 +1,66 @@
+version: 2
+
+sources:
+  - name: public
+    tables:
+      - name: raw_orders
+
+models:
+  - name: stg_orders
+    description: "Modelo staging: estandariza columnas de la tabla raw_orders"
+    columns:
+      - name: order_number
+        tests:
+          - not_null
+          - unique
+      - name: invoice_date
+        tests:
+          - not_null
+      - name: total_price_usd
+        tests:
+          - not_null
+
+  - name: fact_orders
+    description: "Tabla de hechos con órdenes de venta"
+    columns:
+      - name: order_number
+        tests:
+          - not_null
+          - unique
+      - name: total_price_usd
+        tests:
+          - not_null
+
+  - name: dim_country
+    description: "Dimensión de país"
+    columns:
+      - name: country
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_product_type
+    description: "Dimensión de tipo de producto"
+    columns:
+      - name: product_type
+        tests:
+          - not_null
+          - unique
+
+  - name: dim_date
+    description: "Dimensión de fecha de orden"
+    columns:
+      - name: date
+        tests:
+          - not_null
+          - unique
+
+  - name: sales_summary
+    description: "Vista resumen de ventas"
+    columns:
+      - name: order_date
+        tests:
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null

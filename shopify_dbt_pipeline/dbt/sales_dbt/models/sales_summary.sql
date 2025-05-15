@@ -12,9 +12,9 @@ SELECT
     
     COUNT(DISTINCT f.order_number) AS num_orders,
     SUM(f.quantity) AS total_quantity,
-    SUM(f.total) AS total_revenue,
+    SUM(f.total_price_usd) AS total_revenue,
     SUM(f.tax) AS total_tax,
-    ROUND(SUM(f.total)::numeric / COUNT(DISTINCT f.order_number), 2) AS avg_order_value
+    ROUND(SUM(f.total_price_usd)::numeric / COUNT(DISTINCT f.order_number), 2) AS avg_order_value
 
 
 FROM {{ ref('fact_orders') }} f

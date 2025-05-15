@@ -1,115 +1,118 @@
-# Proyecto ETL y Data Warehouse con Airflow, DBT y PostgreSQL
+# 📁 Shopify Sales Analytics with DBT and PostgreSQL
 
-Este proyecto implementa un pipeline completo de extracción, transformación y carga (ETL) para datos de ventas, utilizando tecnologías modernas de ingeniería de datos: **Airflow**, **DBT**, y **PostgreSQL**. El objetivo es construir un esquema en estrella para análisis de ventas, con tablas de hechos y dimensiones, listo para alimentar dashboards y sistemas de BI.
-
----
-
-## Contenido
-
-- Extracción de datos desde APIs o archivos
-- Transformación y limpieza con Python y DBT
-- Orquestación con Apache Airflow
-- Almacenamiento en base de datos PostgreSQL
-- Modelado dimensional para análisis (fact y dimensiones)
-- Visualización con vistas resumen preparadas para BI
+This project implements a data transformation pipeline using DBT (Data Build Tool) to process sales data from an Excel file structured like Shopify data, loading it into a PostgreSQL database, orchestrated via Docker.
 
 ---
 
-## Estructura del proyecto
+## 🧾 Dataset
 
-project_root/
-├── dags/ # DAGs de Airflow para orquestar el pipeline
-├── data/ # Datos en bruto (raw), como archivos .xlsx
-├── dbt/ # Proyecto DBT con modelos SQL y configuraciones
+The `orders.xlsx` file contains sales records including customer info, products, prices, payment methods, and dates.
+
+---
+
+## 🛠️ Tools Used
+
+- **PostgreSQL 13:** relational storage for raw and transformed data  
+- **DBT 1.8.7:** transformation, dimensional modeling, and data quality validation  
+- **Docker & Docker Compose:** reproducible and isolated environment  
+- **Pandas:** initial loading of the Excel file into the database  
+- **SQLAlchemy:** programmatic connection to PostgreSQL  
+
+---
+
+## 🔁 Pipeline Flow
+
+orders.xlsx (Excel)
+↓
+load_excel_to_postgres.py
+↓
+PostgreSQL (raw_orders table)
+↓
+DBT (stg_orders → dim_* and fact_orders → sales_summary)
+
+
+---
+
+## 📦 Folder Structure
+
+shopify_dbt_pipeline/
+├── data/
+│ └── orders.xlsx
+├── dbt/
 │ └── sales_dbt/
 │ ├── models/
-│ │ ├── staging/ # Modelos staging (limpieza y normalización)
-│ │ ├── dim_*.sql # Tablas de dimensiones (productos, países, fechas...)
-│ │ ├── fact_orders.sql # Tabla de hechos de ventas
-│ │ └── sales_summary.sql # Vista resumen agregada para BI
-│ ├── dbt_project.yml
-│ └── schema.yml # Documentación y tests DBT
-├── scripts/ # Scripts Python para extracción y carga inicial
-├── Dockerfile # Imagen base para contenedores con dependencias
-├── docker-compose.yml # Orquestación de servicios (Airflow + PostgreSQL)
-└── requirements.txt # Librerías Python necesarias
+│ │ ├── staging/
+│ │ │ └── stg_orders.sql
+│ │ ├── dim_date.sql
+│ │ ├── dim_country.sql
+│ │ ├── dim_city.sql
+│ │ ├── dim_customer.sql
+│ │ ├── dim_product_type.sql
+│ │ ├── dim_gateway.sql
+│ │ ├── fact_orders.sql
+│ │ ├── sales_summary.sql
+│ │ └── schema.yml
+│ └── dbt_project.yml
+├── scripts/
+│ └── load_excel_to_postgres.py
+├── dags/ (optional)
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 
 
 ---
 
-## Flujo de trabajo
+## ✅ How to Run the Pipeline
 
-1. **Extracción**: Se extraen datos de APIs o archivos y se cargan en PostgreSQL en tablas crudas (`raw_orders`).
-2. **Transformación inicial (staging)**: DBT limpia y normaliza datos creando vistas staging (`stg_orders`).
-3. **Modelado dimensional**: DBT crea tabla de hechos (`fact_orders`) y tablas de dimensiones (`dim_product_type`, `dim_country`, etc.).
-4. **Agregación y resumen**: DBT genera vistas resumen (`sales_summary`) para análisis rápidos y dashboards.
-5. **Orquestación**: Apache Airflow coordina la ejecución automática y periódica del pipeline.
+1. Clone the repository and navigate to the project root
 
----
+bash
+git clone <repo_url>
+cd shopify_dbt_pipeline
 
-## Tecnologías usadas
+2. Build the Docker containers
 
-- **Python** para scripting ETL y automatización
-- **Apache Airflow** para orquestación y scheduling
-- **DBT (Data Build Tool)** para modelado y transformación SQL
-- **PostgreSQL** como base de datos relacional y data warehouse
-- **Docker** y **Docker Compose** para ambientes reproducibles y aislados
+docker-compose build
 
----
+3. Initialize Airflow database (if using Airflow)
 
-## Cómo usar este proyecto
+docker-compose run airflow-webserver airflow db init
 
-### Prerrequisitos
+4. Start all services
 
-- Docker y Docker Compose instalados
-- Acceso a terminal con bash
+docker-compose up
 
-### Pasos
+5. Load raw data into PostgreSQL
+Inside the webserver container:
+docker exec -it <webserver_container_name> bash
+python scripts/load_excel_to_postgres.py
+(Example if using default container name:) docker exec -it shopify_dbt_pipeline-airflow-webserver-1 bash
 
-1. Clonar este repositorio
-
-2. Construir e iniciar los contenedores
-
-bash    Entrar al contenedor Airflow webserver para comandos DBT
-
-docker-compose run airflow-webserver bash
-
-    Ejecutar DBT para compilar modelos
-
+6. Inside the container:
 cd /opt/airflow/dbt/sales_dbt
-dbt run
+dbt debug       # optional: check connection and config
+dbt run         # run all models
+dbt test        # run tests defined in schema.yml
 
-    Acceder a Airflow en el navegador: http://localhost:8080
+### 🧪 Validations
+The schema.yml file defines 15+ automatic tests, including:
 
-    Explorar tablas y vistas en PostgreSQL (ejemplo con psql)
+    not_null and unique for primary keys or key fields
 
-psql -h localhost -U airflow -d airflow
-SELECT * FROM dbt_joao.sales_summary LIMIT 10;
+    Data integrity checks for columns such as total_price_usd, invoice_date, country, product_type, etc.
 
-### 3 Estructura de modelos DBT
+### 🧠 Why This Project?
 
-    stg_orders.sql: limpieza y estandarización de columnas
+Versioning and lineage managed by DBT
 
-    fact_orders.sql: tabla de hechos con ventas
+Clear separation of raw, staging, and analytical models
 
-    dim_*: tablas de dimensiones (producto, cliente, fecha, país, método de pago)
+Automated data quality validations
 
-    sales_summary.sql: tabla agregada lista para análisis y dashboards
+Production-ready, reproducible environment with Docker
 
-### 4 Próximos pasos / Mejoras
 
-    Añadir más dimensiones (cliente, producto detallado, promociones)
-
-    Implementar tests DBT automáticos para calidad de datos
-
-    Integrar pipeline con dashboards en Power BI o Streamlit
-
-    Añadir procesamiento incremental para grandes volúmenes
-
-    Explorar integración con ML para forecasting y recomendaciones
-
-### 5 Contacto
-
-Para dudas o sugerencias, contactame:
-Joao — [tu-email@example.com] — [LinkedIn/GitHub]
-docker-compose up --build
+### 👨‍💻 Author
+Joao — Aspiring Data Developer
+Technical portfolio project targeting Data  roles.

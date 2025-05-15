@@ -7,7 +7,7 @@ SELECT
     "Product Id" AS product_id,
     "Quantity" AS quantity,
     "Subtotal Price" AS subtotal,
-    "Total Price Usd" AS total,
+    "Total Price Usd" AS total_price_usd,
     "Total Tax" AS tax,
     "Billing Address Country" AS country,
     "CITY" AS city,

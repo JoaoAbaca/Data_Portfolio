@@ -12,6 +12,6 @@ SELECT
     gateway,
     quantity,
     subtotal,
-    total,
+    total_price_usd,
     tax
 FROM {{ ref('stg_orders') }}
