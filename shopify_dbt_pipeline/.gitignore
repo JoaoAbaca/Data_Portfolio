@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+venv/
+.envrc
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# DBT
+target/
+dbt_modules/
+
+# Airflow
+airflow.cfg
+logs/
+*.log
+*.pid
+*.db
+
+# Docker
+*.log
+*.env
+docker-compose.override.yml
+.dockerignore
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Data files (si querés evitar subir data local)
+data/raw/
+data/processed/
+
+# Otros
+*.sqlite3
+*.db
+

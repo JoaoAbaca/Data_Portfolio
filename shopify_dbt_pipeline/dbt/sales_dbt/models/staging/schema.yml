@@ -1,0 +1,96 @@
+version: 2
+
+sources:
+  - name: public
+    description: "Esquema público de PostgreSQL con datos crudos"
+    tables:
+      - name: raw_orders
+        description: "Tabla cruda de órdenes importada desde Shopify"
+
+models:
+  - name: stg_orders
+    description: "Modelo de staging para limpiar columnas de órdenes"
+    columns:
+      - name: order_number
+      - name: customer_id
+      - name: invoice_date
+      - name: product_id
+      - name: quantity
+      - name: subtotal
+      - name: total
+      - name: tax
+      - name: country
+      - name: city
+      - name: product_type
+      - name: variant_id
+      - name: gateway
+
+  - name: fact_orders
+    description: "Tabla de hechos de ventas por orden"
+    columns:
+      - name: order_number
+      - name: customer_id
+      - name: order_date
+      - name: product_id
+      - name: product_type
+      - name: variant_id
+      - name: country
+      - name: city
+      - name: gateway
+      - name: quantity
+      - name: subtotal
+      - name: total
+      - name: tax
+      
+  - name: dim_product_type
+    description: "Tabla de dimensiones con tipos únicos de productos"
+    columns:
+      - name: product_type
+        description: "Tipo de producto vendido (ej. Climbing Shoes)"
+  - name: dim_country
+    description: "Dimensión de países de facturación"
+    columns:
+      - name: country
+
+  - name: dim_city
+    description: "Dimensión de ciudades de facturación"
+    columns:
+      - name: city
+
+  - name: dim_customer
+    description: "Dimensión de clientes únicos"
+    columns:
+      - name: customer_id
+
+  - name: dim_date
+    description: "Calendario derivado de las fechas de venta"
+    columns:
+      - name: date
+      - name: year
+      - name: month
+      - name: day
+      - name: month_name
+      - name: weekday_name
+      - name: weekday_num
+
+  - name: dim_gateway
+    description: "Dimensión de métodos de pago"
+    columns:
+      - name: gateway
+
+  - name: sales_summary
+    description: "Vista de resumen de ventas uniendo hechos y dimensiones"
+    columns:
+      - name: order_date
+      - name: year
+      - name: month
+      - name: month_name
+      - name: weekday_name
+      - name: product_type
+      - name: country
+      - name: gateway
+      - name: num_orders
+      - name: total_quantity
+      - name: total_revenue
+      - name: total_tax
+      - name: avg_order_value
