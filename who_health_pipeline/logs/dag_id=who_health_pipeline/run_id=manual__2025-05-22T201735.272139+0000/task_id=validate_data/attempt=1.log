@@ -1,0 +1,24 @@
+[2025-05-22T20:17:45.094+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-05-22T20:17:45.158+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: who_health_pipeline.validate_data manual__2025-05-22T20:17:35.272139+00:00 [queued]>
+[2025-05-22T20:17:45.171+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: who_health_pipeline.validate_data manual__2025-05-22T20:17:35.272139+00:00 [queued]>
+[2025-05-22T20:17:45.172+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-05-22T20:17:45.190+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): validate_data> on 2025-05-22 20:17:35.272139+00:00
+[2025-05-22T20:17:45.202+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:61 DeprecationWarning: This process (pid=199) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2025-05-22T20:17:45.204+0000] {standard_task_runner.py:63} INFO - Started process 201 to run task
+[2025-05-22T20:17:45.202+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'who_health_pipeline', 'validate_data', 'manual__2025-05-22T20:17:35.272139+00:00', '--job-id', '18', '--raw', '--subdir', 'DAGS_FOLDER/who_health_pipeline_dag.py', '--cfg-path', '/tmp/tmp0gve4ctn']
+[2025-05-22T20:17:45.205+0000] {standard_task_runner.py:91} INFO - Job 18: Subtask validate_data
+[2025-05-22T20:17:45.233+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.12/site-packages/***/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-05-22T20:17:45.297+0000] {task_command.py:426} INFO - Running <TaskInstance: who_health_pipeline.validate_data manual__2025-05-22T20:17:35.272139+00:00 [running]> on host 51fa540bc812
+[2025-05-22T20:17:45.501+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='joao' AIRFLOW_CTX_DAG_ID='who_health_pipeline' AIRFLOW_CTX_TASK_ID='validate_data' AIRFLOW_CTX_EXECUTION_DATE='2025-05-22T20:17:35.272139+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-05-22T20:17:35.272139+00:00'
+[2025-05-22T20:17:45.503+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-05-22T20:17:45.954+0000] {logging_mixin.py:188} INFO - Datos crudos cargados con 12936 filas y 25 columnas.
+[2025-05-22T20:17:45.956+0000] {logging_mixin.py:188} INFO - Columnas disponibles: ['Id', 'IndicatorCode', 'SpatialDimType', 'SpatialDim', 'ParentLocationCode', 'TimeDimType', 'ParentLocation', 'Dim1Type', 'Dim1', 'TimeDim', 'Dim2Type', 'Dim2', 'Dim3Type', 'Dim3', 'DataSourceDimType', 'DataSourceDim', 'Value', 'NumericValue', 'Low', 'High', 'Comments', 'Date', 'TimeDimensionValue', 'TimeDimensionBegin', 'TimeDimensionEnd']
+[2025-05-22T20:17:45.995+0000] {logging_mixin.py:188} INFO - Filas después de eliminar nulos en ParentLocation: 12210
+[2025-05-22T20:17:46.091+0000] {logging_mixin.py:188} INFO - Datos validados correctamente.
+[2025-05-22T20:17:46.170+0000] {logging_mixin.py:188} INFO - Datos validados guardados en: data/validated_data.csv
+[2025-05-22T20:17:46.187+0000] {python.py:237} INFO - Done. Returned value was: None
+[2025-05-22T20:17:46.188+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-05-22T20:17:46.211+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=who_health_pipeline, task_id=validate_data, run_id=manual__2025-05-22T20:17:35.272139+00:00, execution_date=20250522T201735, start_date=20250522T201745, end_date=20250522T201746
+[2025-05-22T20:17:46.268+0000] {local_task_job_runner.py:240} INFO - Task exited with return code 0
+[2025-05-22T20:17:46.330+0000] {taskinstance.py:3498} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-05-22T20:17:46.333+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
