@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+# === PostgreSQL Database ===
+  postgres:
+    image: postgres:15
+    container_name: who_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: airflow               # Database user
+      POSTGRES_PASSWORD: airflow           # User password
+      POSTGRES_DB: who_db                  # Database name
+    ports:
+      - "5432:5432"                        # Local port exposure: container
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persistent volume for data
+
+  # === Airflow Webserver ===
+  airflow-webserver:
+    build: .                               # Build using the Dockerfile in the current context
+    container_name: airflow-webserver
+    restart: always
+    depends_on:
+      - postgres                           # Wait for PostgreSQL to be ready
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/who_db
+      AIRFLOW__CORE__FERNET_KEY: "aXU1ZUlTSXdmeWJtQW1Yc2Q3bFVDWldUZEF1Y1hPb3I=" # Fernet encryption key (you can regenerate it if you wish)
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"     # Do not load example DAGs
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: who_db
+    volumes:
+      - ./dags:/opt/airflow/dags           # Custom DAGs
+      - ./logs:/opt/airflow/logs           # Execution logs
+      - ./src:/opt/airflow/src             # Pipeline Python Scripts
+      - ./data:/opt/airflow/data           # Raw and processed data files
+    ports:
+      - "8080:8080"                        # Airflow web interface
+    command: webserver
+
+  # === Airflow Scheduler ===
+  airflow-scheduler:
+    build: .
+    container_name: airflow-scheduler
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/who_db
+      AIRFLOW__CORE__FERNET_KEY: "aXU1ZUlTSXdmeWJtQW1Yc2Q3bFVDWldUZEF1Y1hPb3I="
+      AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+      AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: who_db
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./src:/opt/airflow/src
+      - ./data:/opt/airflow/data
+    command: scheduler
+
+# === Persistent Volumes ===
+volumes:
+  postgres_data:

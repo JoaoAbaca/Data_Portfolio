@@ -1,0 +1,55 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Airflow files
+airflow.db
+*.pid
+logs/
+dags/__pycache__/
+airflow.cfg
+unittests.cfg
+
+# Pytest
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# VS Code
+.vscode/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Environment variables
+.env
+
+# Docker
+*.log
+docker-compose.override.yml
+__airflow_logs/
+airflow_logs/
+.docker/
+
+# Data
+data/raw/
+data/validated/
+data/processed/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+"""
