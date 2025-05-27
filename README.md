@@ -1,6 +1,6 @@
 # 🧠 Joao Abaca — Data Portfolio
 
-Welcome to my personal data portfolio. I'm a data professional transitioning from QA and analytics roles to data engineering. This repository showcases end-to-end projects focused on data pipelines, orchestration, modeling, and validation — built with tools like **Airflow**, **DBT**, **Docker**, and **PostgreSQL**.
+Welcome to my data portfolio. I'm a data professional transitioning to data analyst and data engineering. This repository showcases end-to-end projects focused on data pipelines, orchestration, modeling, and validation — built with tools like **Airflow**, **DBT**, **Docker**, and **PostgreSQL**.
 
 Each project is designed to simulate real-world data workflows and demonstrate my learning path and technical abilities.
 
